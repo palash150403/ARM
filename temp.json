@@ -2,12 +2,9 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "virtualNetworks_dev_propel_vnet_name": {
-        "type": "string"
-      },
-      "networkSecurityGroups_dev_propel_appservice_nsg_name": {
+      "vnetName": {
         "type": "string",
-        "defaultValue": "mynsg"
+        "defaultValue": "myVNet"
       }
     },
     "resources": [
@@ -48,6 +45,16 @@
         },
         "type": "Microsoft.Network/virtualNetworks"
       }
-    ]
+    ],
+    "outputs": {
+      "vnetId": {
+        "type": "string",
+        "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+      },
+      "vnetName": {
+        "type": "string",
+        "value": "[parameters('vnetName')]"
+      }
+    }
   }
   

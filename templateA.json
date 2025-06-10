@@ -2,32 +2,46 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "vnetName": {
+    "networkSecurityGroups_dev_propel_appservice_nsg_name": {
       "type": "string",
-      "defaultValue": "myVNet"
-    },
-    "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]"
+      "defaultValue": "mynsg"
     }
   },
   "resources": [
     {
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-11-01",
-      "name": "[parameters('vnetName')]",
-      "location": "[parameters('location')]",
+      "apiVersion": "2024-05-01",
+      "location": "eastus",
+      "name": "[parameters('networkSecurityGroups_dev_propel_appservice_nsg_name')]",
       "properties": {
-        "addressSpace": {
-          "addressPrefixes": ["10.0.0.0/16"]
-        }
-      }
+        "securityRules": [
+          {
+            "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'), 'app-api-access')]",
+            "name": "app-api-access",
+            "properties": {
+              "access": "Allow",
+              "destinationAddressPrefix": "10.1.1.0/24",
+              "destinationAddressPrefixes": [],
+              "destinationPortRange": "*",
+              "destinationPortRanges": [],
+              "direction": "Inbound",
+              "priority": 100,
+              "protocol": "Tcp",
+              "sourceAddressPrefix": "10.1.1.0/24",
+              "sourceAddressPrefixes": [],
+              "sourcePortRange": "*",
+              "sourcePortRanges": []
+            },
+            "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+          }
+        ]
+      },
+      "type": "Microsoft.Network/networkSecurityGroups"
     }
   ],
   "outputs": {
-    "vnetId": {
+    "vnetName": {
       "type": "string",
-      "value": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+      "value": "[parameters('networkSecurityGroups_dev_propel_appservice_nsg_name')]"
     }
   }
 }
