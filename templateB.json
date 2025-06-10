@@ -17,6 +17,10 @@
       "virtualNetworks_dev_propel_vnet_name": {
         "type": "string",
         "defaultValue": "myvnet"
+      },
+      "networkSecurityGroups_dev_propel_appservice_nsg_name": {
+        "type": "string",
+        "defaultValue": "tempnsg"
       }
     },
     "resources": [
@@ -75,7 +79,7 @@
       {
         "apiVersion": "2024-05-01",
         "dependsOn": [
-          "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_centralised_logs_vm_nsg_name'))]"
+          "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'))]"
         ],
         "location": "eastus",
         "name": "[parameters('virtualNetworks_dev_propel_vnet_name')]",
@@ -103,6 +107,205 @@
                 "serviceEndpoints": []
               },
               "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'cosmos-subnet')]",
+              "name": "cosmos-subnet",
+              "properties": {
+                "addressPrefix": "10.1.6.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": []
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'redis-subnet')]",
+              "name": "redis-subnet",
+              "properties": {
+                "addressPrefix": "10.1.4.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": []
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'sqlserver-subnet')]",
+              "name": "sqlserver-subnet",
+              "properties": {
+                "addressPrefix": "10.1.8.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": []
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'adx-subnet')]",
+              "name": "adx-subnet",
+              "properties": {
+                "addressPrefix": "10.1.9.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": []
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'flex-function-subnet')]",
+              "name": "flex-function-subnet",
+              "properties": {
+                "addressPrefix": "10.1.10.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [
+                  {
+                    "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'flex-function-subnet'), '/delegations/appservice-delegation')]",
+                    "name": "appservice-delegation",
+                    "properties": {
+                      "serviceName": "Microsoft.App/environments"
+                    },
+                    "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+                  }
+                ],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": [
+                  {
+                    "locations": [
+                      "*"
+                    ],
+                    "service": "Microsoft.AzureCosmosDB"
+                  },
+                  {
+                    "locations": [
+                      "eastus",
+                      "westus",
+                      "westus3"
+                    ],
+                    "service": "Microsoft.Storage"
+                  },
+                  {
+                    "locations": [
+                      "eastus"
+                    ],
+                    "service": "Microsoft.Sql"
+                  }
+                ]
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'streamanalytics-subnet')]",
+              "name": "streamanalytics-subnet",
+              "properties": {
+                "addressPrefix": "10.1.3.0/24",
+                "defaultOutboundAccess": false,
+                "delegations": [
+                  {
+                    "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'streamanalytics-subnet'), '/delegations/streamanalytics-delegation')]",
+                    "name": "streamanalytics-delegation",
+                    "properties": {
+                      "serviceName": "Microsoft.StreamAnalytics/streamingJobs"
+                    },
+                    "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+                  }
+                ],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": [
+                  {
+                    "locations": [
+                      "*"
+                    ],
+                    "service": "Microsoft.AzureCosmosDB"
+                  },
+                  {
+                    "locations": [
+                      "eastus",
+                      "westus",
+                      "westus3"
+                    ],
+                    "service": "Microsoft.Storage"
+                  }
+                ]
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'appservice-subnet')]",
+              "name": "appservice-subnet",
+              "properties": {
+                "addressPrefix": "10.1.1.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [
+                  {
+                    "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'appservice-subnet'), '/delegations/appservice-delegation')]",
+                    "name": "appservice-delegation",
+                    "properties": {
+                      "serviceName": "Microsoft.Web/serverFarms"
+                    },
+                    "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+                  }
+                ],
+                "networkSecurityGroup": {
+                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'))]"
+                },
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled",
+                "serviceEndpoints": [
+                  {
+                    "locations": [
+                      "*"
+                    ],
+                    "service": "Microsoft.AzureCosmosDB"
+                  },
+                  {
+                    "locations": [
+                      "eastus",
+                      "westus",
+                      "westus3"
+                    ],
+                    "service": "Microsoft.Storage"
+                  },
+                  {
+                    "locations": [
+                      "eastus"
+                    ],
+                    "service": "Microsoft.Sql"
+                  }
+                ]
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'function-subnet')]",
+              "name": "function-subnet",
+              "properties": {
+                "addressPrefix": "10.1.2.0/24",
+                "defaultOutboundAccess": true,
+                "delegations": [
+                  {
+                    "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'function-subnet'), '/delegations/appservice-delegation')]",
+                    "name": "appservice-delegation",
+                    "properties": {
+                      "serviceName": "Microsoft.Web/serverFarms"
+                    },
+                    "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+                  }
+                ],
+                "privateEndpointNetworkPolicies": "Disabled",
+                "privateLinkServiceNetworkPolicies": "Enabled"
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets"
             }
           ],
           "virtualNetworkPeerings": []
@@ -118,6 +321,247 @@
           "Sub Business Unit": "Propel"
         },
         "type": "Microsoft.Network/virtualNetworks"
+      },
+///////// Subnet
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/adx-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.9.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": []
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/cosmos-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.6.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": []
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/flex-function-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.10.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'flex-function-subnet'), '/delegations/appservice-delegation')]",
+              "name": "appservice-delegation",
+              "properties": {
+                "serviceName": "Microsoft.App/environments"
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+            }
+          ],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": [
+            {
+              "locations": [
+                "*"
+              ],
+              "service": "Microsoft.AzureCosmosDB"
+            },
+            {
+              "locations": [
+                "eastus",
+                "westus",
+                "westus3"
+              ],
+              "service": "Microsoft.Storage"
+            },
+            {
+              "locations": [
+                "eastus"
+              ],
+              "service": "Microsoft.Sql"
+            }
+          ]
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/function-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.2.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'function-subnet'), '/delegations/appservice-delegation')]",
+              "name": "appservice-delegation",
+              "properties": {
+                "serviceName": "Microsoft.Web/serverFarms"
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+            }
+          ],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled"
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/redis-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.4.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": []
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/sqlserver-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.8.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": []
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/storage-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.5.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": []
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/streamanalytics-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.3.0/24",
+          "defaultOutboundAccess": false,
+          "delegations": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'streamanalytics-subnet'), '/delegations/streamanalytics-delegation')]",
+              "name": "streamanalytics-delegation",
+              "properties": {
+                "serviceName": "Microsoft.StreamAnalytics/streamingJobs"
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+            }
+          ],
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": [
+            {
+              "locations": [
+                "*"
+              ],
+              "service": "Microsoft.AzureCosmosDB"
+            },
+            {
+              "locations": [
+                "eastus",
+                "westus",
+                "westus3"
+              ],
+              "service": "Microsoft.Storage"
+            }
+          ]
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dev_propel_vnet_name'))]",
+          "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'))]"
+        ],
+        "name": "[concat(parameters('virtualNetworks_dev_propel_vnet_name'), '/appservice-subnet')]",
+        "properties": {
+          "addressPrefix": "10.1.1.0/24",
+          "defaultOutboundAccess": true,
+          "delegations": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'appservice-subnet'), '/delegations/appservice-delegation')]",
+              "name": "appservice-delegation",
+              "properties": {
+                "serviceName": "Microsoft.Web/serverFarms"
+              },
+              "type": "Microsoft.Network/virtualNetworks/subnets/delegations"
+            }
+          ],
+          "networkSecurityGroup": {
+            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'))]"
+          },
+          "privateEndpointNetworkPolicies": "Disabled",
+          "privateLinkServiceNetworkPolicies": "Enabled",
+          "serviceEndpoints": [
+            {
+              "locations": [
+                "*"
+              ],
+              "service": "Microsoft.AzureCosmosDB"
+            },
+            {
+              "locations": [
+                "eastus",
+                "westus",
+                "westus3"
+              ],
+              "service": "Microsoft.Storage"
+            },
+            {
+              "locations": [
+                "eastus"
+              ],
+              "service": "Microsoft.Sql"
+            }
+          ]
+        },
+        "type": "Microsoft.Network/virtualNetworks/subnets"
       },
   ///////// NSG
       {
