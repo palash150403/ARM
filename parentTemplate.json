@@ -25,19 +25,8 @@
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/palash150403/ARM/main/templateB.json",
           "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "virtualNetworks_dev_propel_vnet_name": {
-            "value": "[reference('deploymentA').outputs.virtualNetworks_dev_propel_vnet_name.value]"
-          }
         }
       }
     }
-  ],
-  "outputs": {
-    "messageFromLinkedTemplate": {
-      "type": "string",
-      "value": "[reference('deploymentA').outputs.virtualNetworks_dev_propel_vnet_name.value]"
-    }
-  }
+  ]
 }
