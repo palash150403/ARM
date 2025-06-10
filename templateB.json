@@ -73,43 +73,6 @@
       },
       {
         "apiVersion": "2024-05-01",
-        // "dependsOn": [
-        //   "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_centralised_logs_vm_nsg_name'))]"
-        // ],
-        "location": "eastus",
-        "name": "[parameters('virtualNetworks_dev_propel_vnet_name')]",
-        "properties": {
-          "addressSpace": {
-            "addressPrefixes": [
-              "10.1.0.0/16"
-            ]
-          },
-          "dhcpOptions": {
-            "dnsServers": []
-          },
-          "enableDdosProtection": false,
-          "privateEndpointVNetPolicies": "Disabled",
-          "subnets": [
-            {
-              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'storage-subnet')]",
-              "name": "storage-subnet",
-              "properties": {
-                "addressPrefix": "10.1.5.0/24",
-                "defaultOutboundAccess": true,
-                "delegations": [],
-                "privateEndpointNetworkPolicies": "Disabled",
-                "privateLinkServiceNetworkPolicies": "Enabled",
-                "serviceEndpoints": []
-              },
-              "type": "Microsoft.Network/virtualNetworks/subnets"
-            }
-          ],
-          "virtualNetworkPeerings": []
-        },
-        "type": "Microsoft.Network/virtualNetworks"
-      },
-      {
-        "apiVersion": "2024-05-01",
         "location": "eastus",
         "name": "[parameters('networkSecurityGroups_centralised_logs_vm_nsg_name')]",
         "properties": {
