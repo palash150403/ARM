@@ -3,7 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "virtualNetworks_dev_propel_vnet_name": {
-        "type": "string"
+        "type": "string",
+        "defaultValue": "myvnet"
       },
       "networkSecurityGroups_dev_propel_appservice_nsg_name": {
         "type": "string",
