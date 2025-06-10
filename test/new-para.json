@@ -1,0 +1,14 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vaults_dev_propel_vault22_name": {
+      "value": "palashtestdevprop"
+    },
+    "acs_connection_string_value": {
+      "value": "secret"
+    }
+  }
+}
+  
+   

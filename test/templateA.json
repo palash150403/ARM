@@ -3,8 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "vaults_dev_propel_vault22_name": {
-      "type": "string",
-      "defaultValue": "palashtestvault"
+      "type": "string"
     }
   },
   "resources": [
