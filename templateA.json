@@ -2,40 +2,34 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "networkSecurityGroups_dev_propel_appservice_nsg_name": {
+    "publicIPAddresses_centralised_logs_vm_ip_name": {
       "type": "string",
-      "defaultValue": "mynsg"
+      "defaultValue": "myip"
     }
   },
   "resources": [
     {
       "apiVersion": "2024-05-01",
       "location": "eastus",
-      "name": "[parameters('networkSecurityGroups_dev_propel_appservice_nsg_name')]",
+      "name": "[parameters('publicIPAddresses_centralised_logs_vm_ip_name')]",
       "properties": {
-        "securityRules": [
-          {
-            "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'), 'app-api-access')]",
-            "name": "app-api-access",
-            "properties": {
-              "access": "Allow",
-              "destinationAddressPrefix": "10.1.1.0/24",
-              "destinationAddressPrefixes": [],
-              "destinationPortRange": "*",
-              "destinationPortRanges": [],
-              "direction": "Inbound",
-              "priority": 100,
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "10.1.1.0/24",
-              "sourceAddressPrefixes": [],
-              "sourcePortRange": "*",
-              "sourcePortRanges": []
-            },
-            "type": "Microsoft.Network/networkSecurityGroups/securityRules"
-          }
-        ]
+        "idleTimeoutInMinutes": 4,
+        "ipAddress": "172.178.81.135",
+        "ipTags": [],
+        "publicIPAddressVersion": "IPv4",
+        "publicIPAllocationMethod": "Static"
       },
-      "type": "Microsoft.Network/networkSecurityGroups"
+      "sku": {
+        "name": "Standard",
+        "tier": "Regional"
+      },
+      "tags": {
+        "Business Unit": "einfochips"
+      },
+      "type": "Microsoft.Network/publicIPAddresses",
+      "zones": [
+        "1"
+      ]
     }
   ]
 }

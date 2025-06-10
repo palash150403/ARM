@@ -2,21 +2,72 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+      "networkInterfaces_centralised_logs_vm815_z1_name": {
+        "type": "string",
+        "defaultValue": "mynic"
+      },
+      "publicIPAddresses_centralised_logs_vm_ip_name": {
+        "type": "string",
+        "defaultValue": "myip"
+      },
+      "networkSecurityGroups_centralised_logs_vm_nsg_name": {
+        "type": "string",
+        "defaultValue": "mynsg"
+      },
       "virtualNetworks_dev_propel_vnet_name": {
         "type": "string",
         "defaultValue": "myvnet"
-      },
-      "networkSecurityGroups_dev_propel_appservice_nsg_name": {
-        "type": "string",
-        "defaultValue": "mynsg"
       }
     },
     "resources": [
       {
         "apiVersion": "2024-05-01",
-        "dependsOn": [
-          "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_dev_propel_appservice_nsg_name'))]"
-        ],
+        "kind": "Regular",
+        "location": "eastus",
+        "name": "[parameters('networkInterfaces_centralised_logs_vm815_z1_name')]",
+        "properties": {
+          "auxiliaryMode": "None",
+          "auxiliarySku": "None",
+          "disableTcpStateTracking": false,
+          "dnsSettings": {
+            "dnsServers": []
+          },
+          "enableAcceleratedNetworking": false,
+          "enableIPForwarding": false,
+          "ipConfigurations": [
+            {
+              "id": "[concat(resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_centralised_logs_vm815_z1_name')), '/ipConfigurations/ipconfig1')]",
+              "name": "ipconfig1",
+              "properties": {
+                "primary": true,
+                "privateIPAddress": "10.1.5.5",
+                "privateIPAddressVersion": "IPv4",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_centralised_logs_vm_ip_name'))]",
+                  "properties": {
+                    "deleteOption": "Detach"
+                  }
+                },
+                "subnet": {
+                  "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'storage-subnet')]"
+                }
+              },
+              "type": "Microsoft.Network/networkInterfaces/ipConfigurations"
+            }
+          ],
+          "networkSecurityGroup": {
+            "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_centralised_logs_vm_nsg_name'))]"
+          },
+          "nicType": "Standard"
+        },
+        "tags": {
+          "Business Unit": "einfochips"
+        },
+        "type": "Microsoft.Network/networkInterfaces"
+      },
+      {
+        "apiVersion": "2024-05-01",
         "location": "eastus",
         "name": "[parameters('virtualNetworks_dev_propel_vnet_name')]",
         "properties": {
@@ -32,10 +83,10 @@
           "privateEndpointVNetPolicies": "Disabled",
           "subnets": [
             {
-              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'adx-subnet')]",
-              "name": "adx-subnet",
+              "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'storage-subnet')]",
+              "name": "storage-subnet",
               "properties": {
-                "addressPrefix": "10.1.9.0/24",
+                "addressPrefix": "10.1.5.0/24",
                 "defaultOutboundAccess": true,
                 "delegations": [],
                 "privateEndpointNetworkPolicies": "Disabled",
@@ -48,6 +99,56 @@
           "virtualNetworkPeerings": []
         },
         "type": "Microsoft.Network/virtualNetworks"
+      },
+      {
+        "apiVersion": "2024-05-01",
+        "location": "eastus",
+        "name": "[parameters('networkSecurityGroups_centralised_logs_vm_nsg_name')]",
+        "properties": {
+          "securityRules": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', parameters('networkSecurityGroups_centralised_logs_vm_nsg_name'), 'Allowssh')]",
+              "name": "Allowssh",
+              "properties": {
+                "access": "Allow",
+                "destinationAddressPrefix": "*",
+                "destinationAddressPrefixes": [],
+                "destinationPortRanges": [
+                  "22",
+                  "3000",
+                  "3100",
+                  "9090",
+                  "12345",
+                  "9009",
+                  "9276",
+                  "80",
+                  "8000",
+                  "443",
+                  "9115",
+                  "9100",
+                  "9200"
+                ],
+                "direction": "Inbound",
+                "priority": 100,
+                "protocol": "*",
+                "sourceAddressPrefixes": [
+                  "182.76.141.104/29",
+                  "115.112.142.32/29",
+                  "14.97.73.248/29",
+                  "116.199.207.100/32",
+                  "172.178.81.135"
+                ],
+                "sourcePortRange": "*",
+                "sourcePortRanges": []
+              },
+              "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+            }
+          ]
+        },
+        "tags": {
+          "Business Unit": "einfochips"
+        },
+        "type": "Microsoft.Network/networkSecurityGroups"
       }
     ]
   }
