@@ -1,0 +1,301 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vaults_dev_propel_vault22_name": {
+      "type": "string",
+      "defaultValue": "palashtestvault"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2024-12-01-preview",
+      "location": "eastus",
+      "name": "[parameters('vaults_dev_propel_vault22_name')]",
+      "properties": {
+        "accessPolicies": [
+          {
+            "objectId": "df34a52c-a34b-41dd-b6cb-26c3804c138c",
+            "permissions": {
+              "certificates": [
+                "Get",
+                "Create",
+                "List",
+                "Delete",
+                "Import"
+              ],
+              "keys": [],
+              "secrets": [
+                "Get",
+                "Set",
+                "List",
+                "Delete",
+                "Recover"
+              ],
+              "storage": []
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "ebb941c7-dea1-410a-9f17-4df60bb453d8",
+            "permissions": {
+              "certificates": [
+                "Get",
+                "List",
+                "Delete",
+                "Purge"
+              ],
+              "keys": [],
+              "secrets": [
+                "Get",
+                "Set",
+                "List"
+              ],
+              "storage": []
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "23af066e-1a41-4d5d-ab37-a6841d9ff021",
+            "permissions": {
+              "certificates": [
+                "Get",
+                "List",
+                "Update",
+                "Create",
+                "Import",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "ManageContacts",
+                "ManageIssuers",
+                "GetIssuers",
+                "ListIssuers",
+                "SetIssuers",
+                "DeleteIssuers"
+              ],
+              "keys": [
+                "Get",
+                "List",
+                "Update",
+                "Create",
+                "Import",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "GetRotationPolicy",
+                "SetRotationPolicy",
+                "Rotate"
+              ],
+              "secrets": [
+                "Get",
+                "List",
+                "Set",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "Purge"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "d1041319-2260-434a-ba90-bba72eb2d5bb",
+            "permissions": {
+              "certificates": [],
+              "keys": [
+                "Get",
+                "List",
+                "Update",
+                "Create",
+                "Import",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "GetRotationPolicy",
+                "SetRotationPolicy",
+                "Rotate"
+              ],
+              "secrets": [
+                "Get",
+                "List",
+                "Set",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "4047dfad-f4e8-45b3-8cf2-cb5a7cb8465c",
+            "permissions": {
+              "certificates": [],
+              "keys": [],
+              "secrets": [
+                "Get",
+                "List",
+                "Set"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "65c61ff9-8d5d-442c-9695-a0d849d36c02",
+            "permissions": {
+              "certificates": [],
+              "keys": [],
+              "secrets": [
+                "List",
+                "Get",
+                "Set"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "241e2286-bb69-4d39-a1c8-527af7092f8e",
+            "permissions": {
+              "certificates": [],
+              "keys": [],
+              "secrets": [
+                "Get",
+                "List",
+                "Recover",
+                "Backup",
+                "Restore",
+                "Set"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "3d68196d-3379-4c5a-960f-a5c6fce58113",
+            "permissions": {
+              "certificates": [
+                "Get",
+                "List",
+                "Update",
+                "Create",
+                "Import",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "ManageContacts",
+                "ManageIssuers",
+                "GetIssuers",
+                "ListIssuers",
+                "SetIssuers",
+                "DeleteIssuers",
+                "Purge"
+              ],
+              "keys": [
+                "Get",
+                "List",
+                "Update",
+                "Create",
+                "Import",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "GetRotationPolicy",
+                "SetRotationPolicy",
+                "Rotate",
+                "Encrypt",
+                "Decrypt",
+                "UnwrapKey",
+                "WrapKey",
+                "Verify",
+                "Sign",
+                "Purge",
+                "Release"
+              ],
+              "secrets": [
+                "Get",
+                "List",
+                "Set",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore",
+                "Purge"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "06e4de33-8a5c-41d7-a5ac-a92ab7db26c4",
+            "permissions": {
+              "certificates": [
+                "Get",
+                "List",
+                "Update"
+              ],
+              "keys": [
+                "Get",
+                "List",
+                "Update"
+              ],
+              "secrets": [
+                "Get",
+                "List",
+                "Set"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          },
+          {
+            "objectId": "fdb31953-6ec4-4d81-83f2-873f92153e59",
+            "permissions": {
+              "certificates": [],
+              "keys": [],
+              "secrets": [
+                "Get",
+                "List",
+                "Set",
+                "Delete",
+                "Recover",
+                "Backup",
+                "Restore"
+              ]
+            },
+            "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff"
+          }
+        ],
+        "enablePurgeProtection": true,
+        "enableRbacAuthorization": false,
+        "enableSoftDelete": true,
+        "enabledForDeployment": false,
+        "enabledForDiskEncryption": true,
+        "enabledForTemplateDeployment": false,
+        "provisioningState": "Succeeded",
+        "publicNetworkAccess": "Enabled",
+        "sku": {
+          "family": "A",
+          "name": "standard"
+        },
+        "softDeleteRetentionInDays": 15,
+        "tenantId": "0adb040b-ca22-4ca6-9447-ab7b049a22ff",
+        "vaultUri": "[concat('https://', parameters('vaults_dev_propel_vault22_name'), '.vault.azure.net/')]"
+      },
+      "tags": {
+        "Administrator": "Alpesh Bhavsar",
+        "Application": "Propel-DevOps",
+        "Application Owner": "Yash Badiani",
+        "Business Owner": "Sweta Parekh",
+        "Business Unit": "einfochips",
+        "Environment": "dev",
+        "Project Name": "Propel",
+        "Sub Business Unit": "Propel"
+      },
+      "type": "Microsoft.KeyVault/vaults"
+    }
+  ]
+}

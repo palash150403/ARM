@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vaults_dev_propel_vault22_name": {
+      "type": "string",
+      "defaultValue": "palashtestvault"
+    },
+    "acs_connection_string_value": {
+      "type": "string",
+      "defaultValue": "secret"
+    }
+    
+  },
+  "resources": [
+    {
+      "apiVersion": "2024-12-01-preview",
+      "location": "eastus",
+      "name": "[concat(parameters('vaults_dev_propel_vault22_name'), '/acs-connection-string')]",
+      "properties": {
+        "value": "[parameters('acs_connection_string_value')]",
+        "attributes": {
+          "enabled": true,
+          "exp": 1765627918
+        }
+      },
+      "type": "Microsoft.KeyVault/vaults/secrets"
+    }
+  ]
+}
+  
