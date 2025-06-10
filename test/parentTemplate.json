@@ -1,7 +1,14 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "vaults_dev_propel_vault22_name": {
+      "type": "string"
+    },
+    "acs_connection_string_value": {
+      "type": "string"
+    }
+  },
   "resources": [
     {
       "name": "deploymentA",
@@ -12,6 +19,11 @@
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/palash150403/ARM/main/test/templateA.json",
           "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vaults_dev_propel_vault22_name": {
+            "value": "[parameters('vaults_dev_propel_vault22_name')]"
+          }
         }
       }
     },
@@ -19,12 +31,22 @@
       "name": "deploymentB",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
-      "dependsOn": ["deploymentA"],
+      "dependsOn": [
+        "deploymentA"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
           "uri": "https://raw.githubusercontent.com/palash150403/ARM/main/test/templateB.json",
           "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vaults_dev_propel_vault22_name": {
+            "value": "[parameters('vaults_dev_propel_vault22_name')]"
+          },
+          "acs_connection_string_value": {
+            "value": "[parameters('acs_connection_string_value')]"
+          }
         }
       }
     }
