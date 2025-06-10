@@ -10,7 +10,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://<storage-uri>/templateA.json",
+          "uri": "https://raw.githubusercontent.com/palash150403/ARM/refs/heads/main/templateA.json",
           "contentVersion": "1.0.0.0"
         }
       }
@@ -23,7 +23,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://<storage-uri>/templateB.json",
+          "uri": "https://raw.githubusercontent.com/palash150403/ARM/refs/heads/main/templateB.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

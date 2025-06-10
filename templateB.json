@@ -1,47 +1,24 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "vnetId": {
-        "type": "string"
-      }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetId": {
+      "type": "string"
     },
-    "resources": [
-      {
-        "type": "Microsoft.Compute/virtualMachines",
-        "apiVersion": "2021-07-01",
-        "name": "myVM",
-        "location": "eastus",
-        "dependsOn": [],
-        "properties": {
-          "hardwareProfile": {
-            "vmSize": "Standard_B1s"
-          },
-          "networkProfile": {
-            "networkInterfaces": [
-              {
-                "id": "[concat(parameters('vnetId'), '/subnets/default')]"
-              }
-            ]
-          },
-          "storageProfile": {
-            "osDisk": {
-              "createOption": "FromImage"
-            },
-            "imageReference": {
-              "publisher": "Canonical",
-              "offer": "UbuntuServer",
-              "sku": "18.04-LTS",
-              "version": "latest"
-            }
-          },
-          "osProfile": {
-            "computerName": "myVM",
-            "adminUsername": "azureuser",
-            "adminPassword": "Password123!"
-          }
-        }
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "mySubnet"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "apiVersion": "2020-11-01",
+      "name": "[concat(split(parameters('vnetId'), '/')[8], '/', parameters('subnetName'))]",
+      "dependsOn": [],
+      "properties": {
+        "addressPrefix": "10.0.0.0/24"
       }
-    ]
-  }
-  
+    }
+  ]
+}
