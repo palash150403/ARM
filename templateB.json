@@ -13,20 +13,17 @@
       "networkSecurityGroups_centralised_logs_vm_nsg_name": {
         "type": "string",
         "defaultValue": "mynsg"
-      },
-      "virtualNetworks_dev_propel_vnet_name": {
-        "type": "string",
-        "defaultValue": "myvnet"
       }
+
     },
     "resources": [
       {
         "apiVersion": "2024-05-01",
-        // "dependsOn": [
+        "dependsOn": [
         //   "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_centralised_logs_vm_ip_name'))]",
         //   "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'storage-subnet')]",
-        //   "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_centralised_logs_vm_nsg_name'))]"
-        // ],
+          "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_centralised_logs_vm_nsg_name'))]"
+        ],
         "kind": "Regular",
         "location": "eastus",
         "name": "[parameters('networkInterfaces_centralised_logs_vm815_z1_name')]",
@@ -53,9 +50,6 @@
                   "properties": {
                     "deleteOption": "Detach"
                   }
-                },
-                "subnet": {
-                  "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworks_dev_propel_vnet_name'), 'storage-subnet')]"
                 }
               },
               "type": "Microsoft.Network/networkInterfaces/ipConfigurations"
