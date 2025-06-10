@@ -39,7 +39,7 @@
     }
   ],
   "outputs": {
-    "vnetName": {
+    "networkSecurityGroups_dev_propel_appservice_nsg_name": {
       "type": "string",
       "value": "[parameters('networkSecurityGroups_dev_propel_appservice_nsg_name')]"
     }
